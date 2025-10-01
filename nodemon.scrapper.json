@@ -1,0 +1,10 @@
+{
+  "watch": [
+    "src"
+  ],
+  "ext": ".ts, .js",
+  "ignore": [
+    "src/api/*"
+  ],
+  "exec": "npx ts-node ./src/scrapper/index.ts"
+}

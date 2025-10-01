@@ -1,0 +1,8 @@
+node_modules/
+build/
+.ps1
+dist/
+logs/
+/src/*.env
+.github
+
