@@ -5,10 +5,10 @@
   "main": "src/api/index.js",
   "scripts": {
     "api": "nodemon -L --config nodemon.api.json",
-    "scraper": "nodemon -L --config nodemon.scraper.json",
-    "dev": "concurrently \"npm run api\" \"npm run scraper\"",
+    "scrapper": "nodemon -L --config nodemon.scrapper.json",
+    "dev": "concurrently \"npm run api\" \"npm run scrapper\"",
     "build": "tsc",
-    "start": "node dist/src/api/index.js",
+    "start": "node /src/api/index.js",
     "start-scrapper": "node dist/src/scrapper/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -29,6 +29,7 @@
     "express": "^5.1.0",
     "got": "^14.4.9",
     "jsdom": "^27.0.0",
+    "mongodb": "^6.20.0",
     "mongoose": "^8.18.3",
     "puppeteer": "^24.23.0",
     "tsc": "^2.0.4"

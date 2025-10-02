@@ -1,6 +1,7 @@
 import 'dotenv/config';
 import puppeteer from 'puppeteer';
 import jsdom from 'jsdom';
+import { connectDb } from '../infrastructure/database';
 
 async function launchScrapper() {
   console.info(new Date + ' Ejecutando proceso scrapper');
@@ -32,4 +33,5 @@ async function launchScrapper() {
   }
 }
 
-launchScrapper();
+
+
