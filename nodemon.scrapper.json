@@ -6,5 +6,5 @@
   "ignore": [
     "src/api/*"
   ],
-  "exec": "npx ts-node ./src/scrapper/index.ts"
+  "exec": "npx ts-node ./src/application/index.ts"
 }

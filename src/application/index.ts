@@ -1,9 +1,21 @@
 import 'dotenv/config';
 import puppeteer from 'puppeteer';
 import jsdom from 'jsdom';
+import { NewsRepo } from '../infrastructure/database/repositories/news.repository';
 import { connectDb } from '../infrastructure/database';
 
+
+launchScrapper();
+
+
+
+
 async function launchScrapper() {
+  
+  console.log('launch scraper')
+  await connectDb();
+  
+
   console.info(new Date + ' Ejecutando proceso scrapper');
   try {
     const browser = await puppeteer.launch();
@@ -27,11 +39,21 @@ async function launchScrapper() {
 
     await browser.close();
 
+      const newsRepo = new NewsRepo();
+      await newsRepo.getAllNews();
+
     return;
   } catch (error) {
     console.error(error);
   }
 }
+
+
+
+
+
+
+
 
 
 

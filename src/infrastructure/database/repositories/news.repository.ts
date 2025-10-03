@@ -5,7 +5,8 @@ import { newsModel } from "../model/news.model";
 export class NewsRepo implements NewsRepository {
 
   async getAllNews(): Promise<News[]> {
-    const docs = await newsModel.find().lean();
+    const docs = await newsModel.find();
+    console.log('News ', docs)
     let newsResult: News[] = [];
 
     docs.forEach((doc) => {
@@ -15,9 +16,11 @@ export class NewsRepo implements NewsRepository {
         doc.source
       ))
     });
+    console.log('Results ', newsResult)
     return newsResult;
   }
   async searchNewsById(id: string): Promise<News> {
+
     throw new Error("Method not implemented.");
   }
   async deleteNewsById(id: string): Promise<News> {

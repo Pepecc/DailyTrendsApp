@@ -9,7 +9,7 @@
     "dev": "concurrently \"npm run api\" \"npm run scrapper\"",
     "build": "tsc",
     "start": "node /src/api/index.js",
-    "start-scrapper": "node dist/src/scrapper/index.js",
+    "start-scrapper": "node dist/src/application/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "jcompany",
