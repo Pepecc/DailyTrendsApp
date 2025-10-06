@@ -1,30 +1,34 @@
-import { News } from "../../../domain/news/news.entity";
-import { NewsRepository } from "../../../domain/repositories/news.repository";
-import { newsModel } from "../model/news.model";
+import { News } from '../../../domain/news/news.entity';
+import { NewsRepository } from '../../../domain/repositories/news.repository';
+import { newsModel } from '../model/news.model';
 
 export class NewsRepo implements NewsRepository {
-
   async getAllNews(): Promise<News[]> {
-    const docs = await newsModel.find();
-    console.log('News ', docs)
-    let newsResult: News[] = [];
+    try {
+      const docs = await newsModel.find();
+      console.log('News ', docs);
+      let newsResult: News[] = [];
 
-    docs.forEach((doc) => {
-      newsResult.push(new News(
-        doc.headline,
-        doc.createdAt,
-        doc.source
-      ))
-    });
-    console.log('Results ', newsResult)
-    return newsResult;
-  }
-  async searchNewsById(id: string): Promise<News> {
+      docs.forEach((doc) => {
+        newsResult.push(new News(doc.headline, doc.createdAt, doc.source));
+      });
 
-    throw new Error("Method not implemented.");
+      return newsResult;
+    } catch (error) {
+      throw new Error('Error al obtener las noticias ' + error);
+    }
   }
-  async deleteNewsById(id: string): Promise<News> {
-    throw new Error("Method not implemented.");
+
+  async storeNews(freshNews: News[]): Promise<void> {
+    try {
+      for await (let news of freshNews) {
+        const itemNews = new newsModel(news);
+        await itemNews.save();
+      }
+      console.log('Noticias guardadas con éxito en BBDD');
+    } catch (error) {
+      throw new Error('Error al guardar las noticias ' + error);
+    }
   }
-  
+
 }

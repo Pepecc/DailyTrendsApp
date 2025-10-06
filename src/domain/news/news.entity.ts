@@ -1,5 +1,6 @@
 export class News {
   constructor(public headline: string, public createdAt: Date, public source: string) {
+
     if (!headline || headline.length === 0) {
       throw new Error('El titular no puede estar vacío');
     }

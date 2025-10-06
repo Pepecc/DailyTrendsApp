@@ -3,14 +3,12 @@ import puppeteer from 'puppeteer';
 import jsdom from 'jsdom';
 import { NewsRepo } from '../infrastructure/database/repositories/news.repository';
 import { connectDb } from '../infrastructure/database';
+import { News } from '../domain/news/news.entity';
+import { newsSource } from '../utils/constants';
 
+launchScrapper('elpais');
 
-launchScrapper();
-
-
-
-
-async function launchScrapper() {
+async function launchScrapper(newsSrc: string) {
   
   console.log('launch scraper')
   await connectDb();
@@ -20,7 +18,10 @@ async function launchScrapper() {
   try {
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
-    const response = await page.goto(process.env.NEWS_URL as string);
+    const mapping = newsSource.find((src) => src.id === newsSrc);
+    const URL = mapping?.url;
+    const sourceName = mapping?.name as string;
+    const response = await page.goto(URL as string);
     const body = await response!.text();
 
     const {
@@ -35,12 +36,10 @@ async function launchScrapper() {
       }
     });
 
-    console.log('Noticias ', noticias);
-
     await browser.close();
-
-      const newsRepo = new NewsRepo();
-      await newsRepo.getAllNews();
+    const newsRepo = new NewsRepo();
+    const result: News[] = createNewsObject(noticias, sourceName);    
+    await newsRepo.storeNews(result);  
 
     return;
   } catch (error) {
@@ -48,12 +47,19 @@ async function launchScrapper() {
   }
 }
 
-
-
-
-
-
-
-
-
-
+function createNewsObject (headlines: string[], source: string){
+  try {
+    let newsArray: News[] = [];
+    headlines.forEach((head) => {
+      let objectNews: News = {
+        headline: head,
+        createdAt: new Date(),
+        source: source,
+      }
+      newsArray.push(objectNews);
+    });
+    return newsArray;
+  } catch (error) {
+    throw new Error('Error al convertir objeto ' + error)
+  }
+}
