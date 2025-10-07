@@ -4,4 +4,8 @@ export interface NewsRepository {
   getAllNews(): Promise<News[]>;
 
   storeNews(news: News[]): Promise<void>;
+
+  searchNewsBySource(sourceName: string): Promise<News[]>;
+
+  searchNewsByDate(fullDate: string): Promise<News[]>;
 }

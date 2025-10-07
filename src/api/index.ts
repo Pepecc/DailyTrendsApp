@@ -2,10 +2,12 @@ import 'dotenv/config';
 import express, { Request, Response } from 'express';
 import bodyParser from 'body-parser';
 import apiRouter from './routes/api.routes';
+import { connectDb } from '../infrastructure/database';
 
 const PORT: number = parseInt(process.env.API_PORT!) || 3000;
 
 export const app = express();
+connectDb();
 
 app.use(bodyParser.urlencoded());
 

@@ -6,13 +6,10 @@ export class NewsRepo implements NewsRepository {
   async getAllNews(): Promise<News[]> {
     try {
       const docs = await newsModel.find();
-      console.log('News ', docs);
       let newsResult: News[] = [];
-
       docs.forEach((doc) => {
         newsResult.push(new News(doc.headline, doc.createdAt, doc.source));
       });
-
       return newsResult;
     } catch (error) {
       throw new Error('Error al obtener las noticias ' + error);
@@ -31,4 +28,30 @@ export class NewsRepo implements NewsRepository {
     }
   }
 
+  async searchNewsBySource(sourceName: string): Promise<News[]> {
+    try {
+      const docs = await newsModel.find({ source: sourceName });
+      let newsResult: News[] = [];
+      docs.forEach((doc) => {
+        newsResult.push(new News(doc.headline, doc.createdAt, doc.source));
+      });
+      return newsResult;
+    } catch (error) {
+      throw new Error('Error al buscar las noticias por fuente ' + error);
+    }
+  }
+
+  async searchNewsByDate(fullDate: string): Promise<News[]> {
+    try {
+    
+      const docs = await newsModel.find({ createdAt: new Date(fullDate) });
+      let newsResult: News[] = [];
+      docs.forEach((doc) => {
+        newsResult.push(new News(doc.headline, doc.createdAt, doc.source));
+      });
+      return newsResult;
+    } catch (error) {
+      throw new Error('Error al buscar las noticias por fecha ' + error);
+    }
+  }
 }

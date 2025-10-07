@@ -2,19 +2,17 @@ import 'dotenv/config';
 import puppeteer from 'puppeteer';
 import jsdom from 'jsdom';
 import { NewsRepo } from '../infrastructure/database/repositories/news.repository';
-import { connectDb } from '../infrastructure/database';
+import { connectDb, disconnectDb } from '../infrastructure/database';
 import { News } from '../domain/news/news.entity';
 import { newsSource } from '../utils/constants';
 
 launchScrapper('elpais');
 
 async function launchScrapper(newsSrc: string) {
-  
-  console.log('launch scraper')
+  console.log(new Date() + ' Launching scraper');
   await connectDb();
-  
 
-  console.info(new Date + ' Ejecutando proceso scrapper');
+  console.info(new Date() + ' Ejecutando proceso scrapper');
   try {
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
@@ -37,17 +35,18 @@ async function launchScrapper(newsSrc: string) {
     });
 
     await browser.close();
+    console.log(new Date() + ' Sscraper finished');
     const newsRepo = new NewsRepo();
-    const result: News[] = createNewsObject(noticias, sourceName);    
-    await newsRepo.storeNews(result);  
-
+    const result: News[] = createNewsObject(noticias, sourceName);
+    await newsRepo.storeNews(result);
+    await disconnectDb();
     return;
   } catch (error) {
     console.error(error);
   }
 }
 
-function createNewsObject (headlines: string[], source: string){
+function createNewsObject(headlines: string[], source: string) {
   try {
     let newsArray: News[] = [];
     headlines.forEach((head) => {
@@ -55,11 +54,11 @@ function createNewsObject (headlines: string[], source: string){
         headline: head,
         createdAt: new Date(),
         source: source,
-      }
+      };
       newsArray.push(objectNews);
     });
     return newsArray;
   } catch (error) {
-    throw new Error('Error al convertir objeto ' + error)
+    throw new Error('Error al convertir objeto ' + error);
   }
 }
