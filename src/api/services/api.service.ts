@@ -20,11 +20,3 @@ export async function sourceNews(sourceName: string) {
   }
 }
 
-export async function dateNews(fullDate: string) {
-  try {
-    const newsByDate = await newsRepo.searchNewsByDate(fullDate);
-    return newsByDate;
-  } catch (error) {
-    throw new Error('Error en el servicio dateNews ' + error);
-  }
-}

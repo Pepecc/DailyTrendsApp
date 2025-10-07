@@ -22,13 +22,3 @@ export async function getNewsBySource(req: Request, res: Response): Promise<any>
   }
 }
 
-export async function getNewsByDate(req: Request, res: Response): Promise<any> {
-  console.log(new Date() + 'Se accedió al endpoint /api/news/get-date-news');
-  try {
-    const { news_date } = req.query;
-    const data = await sourceNews(news_date as string);
-    res.json({ status: 200, data });
-  } catch (error) {
-    throw new Error('Error al obtener las noticias por fecha ' + error);
-  }
-}

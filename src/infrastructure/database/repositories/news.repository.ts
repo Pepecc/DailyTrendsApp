@@ -41,17 +41,4 @@ export class NewsRepo implements NewsRepository {
     }
   }
 
-  async searchNewsByDate(fullDate: string): Promise<News[]> {
-    try {
-    
-      const docs = await newsModel.find({ createdAt: new Date(fullDate) });
-      let newsResult: News[] = [];
-      docs.forEach((doc) => {
-        newsResult.push(new News(doc.headline, doc.createdAt, doc.source));
-      });
-      return newsResult;
-    } catch (error) {
-      throw new Error('Error al buscar las noticias por fecha ' + error);
-    }
-  }
 }
