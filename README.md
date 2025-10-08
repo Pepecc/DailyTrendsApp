@@ -34,3 +34,8 @@ npm run dev
 ### Puntos a destacar:
 
 - En un primer momento pensé en separar el servicio de scrapper y api pero finalmente decidí desarrollarlo en el mismo servicio. La idea inicial era que el proceso de scrapper se ejecutara mediante cron (no era un requisito de la aplicación) y utilizar threads para no bloquear el hilo principal mientras el scrapper funcionaba
+
+
+## Diagrama de arquitectura:
+
+![Diagrama de arquitectura](diagrama_arquitectura.png)
