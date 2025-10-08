@@ -39,3 +39,8 @@ npm run dev
 ## Diagrama de arquitectura:
 
 ![Diagrama de arquitectura](diagrama_arquitectura.png)
+
+
+## Modelado del dominio:
+
+![Modelado del dominio](modelado_dominio.drawio.png)
